@@ -141,3 +141,25 @@
         (ok true)
     )
 )
+
+
+;; 5. Resolve Dispute
+;; Only Arbitrator can call. Sends funds to chosen beneficiary.
+(define-public (resolve-dispute (beneficiary principal))
+    (begin
+        (asserts! (is-eq tx-sender (var-get arbitrator)) ERR-NOT-AUTHORIZED)
+        (asserts! (is-eq (var-get current-status) STATUS-DISPUTED) ERR-WRONG-STATUS)
+
+        ;; Assert the beneficiary is either the Buyer or Freelancer
+        (asserts! (or 
+            (is-eq beneficiary (var-get buyer)) 
+            (is-eq beneficiary (var-get freelancer))
+        ) ERR-INVALID-BENEFICIARY)
+
+        ;; Transfer funds
+        (try! (stx-transfer? (var-get escrow-amount) current-contract beneficiary))
+
+        (var-set current-status STATUS-COMPLETED) ;; Finalized state
+        (ok true)
+    )
+)
