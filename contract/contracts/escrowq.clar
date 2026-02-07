@@ -54,3 +54,37 @@
 (define-read-only (get-status)
     (ok (var-get current-status))
 )
+
+
+;; -------------------------------------------------------------------------
+;; Core Functions
+;; -------------------------------------------------------------------------
+
+;; 1. Initialize Escrow
+;; Caller (Buyer) deposits funds and configures the contract.
+;; Can only be called once.
+
+;; 1. Initialize Escrow
+
+(define-public (initialize-escrow
+  (freelancer-addr principal)
+  (arbitrator-addr principal)
+  (amount uint)
+  (deadline uint)
+)
+  (begin
+    (asserts! (not (var-get is-initialized)) ERR-ALREADY-INITIALIZED)
+
+    ;; transfer STX from caller to this contract
+    (try! (stx-transfer? amount tx-sender current-contract))
+
+    (var-set buyer tx-sender)
+    (var-set freelancer freelancer-addr)
+    (var-set arbitrator arbitrator-addr)
+    (var-set escrow-amount amount)
+    (var-set milestone-deadline deadline)
+    (var-set current-status STATUS-PENDING)
+    (var-set is-initialized true)
+    (ok true)
+  )
+)
