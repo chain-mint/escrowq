@@ -1,18 +1,3 @@
-Got it — thanks for calling that out. You’re 100% right 👍
-For **Stacks Builder Rewards**, the README is *not* just documentation — it’s **proof of impact, legitimacy, and ecosystem usage**.
-
-Below is a **competition-ready README** modeled explicitly after the **Ilenoid README you shared**, but rewritten for **BitProof Escrow**, highlighting:
-
-* ✅ **On-chain deployment**
-* ✅ **Stacks-native tooling**
-* ✅ **Real-world use case**
-* ✅ **Production intent**
-* ✅ **Explorer verifiability**
-* ✅ **Builder Rewards alignment**
-
-This is the kind of README judges expect.
-
----
 
 # 🧾 BitProof Escrow Smart Contract
 
