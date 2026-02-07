@@ -88,3 +88,15 @@
     (ok true)
   )
 )
+
+;; 2. Complete Work
+;; Only Freelancer can call. Signals work is ready for review.
+(define-public (complete-work)
+    (begin
+        (asserts! (is-eq tx-sender (var-get freelancer)) ERR-NOT-AUTHORIZED)
+        (asserts! (is-eq (var-get current-status) STATUS-PENDING) ERR-WRONG-STATUS)
+        
+        (var-set current-status STATUS-WORK-DONE)
+        (ok true)
+    )
+)
