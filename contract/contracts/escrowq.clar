@@ -121,3 +121,23 @@
         (ok true)
     )
 )
+
+;; 4. Dispute Escrow
+;; Buyer or Freelancer can call. Freezes contract for Arbitrator.
+(define-public (dispute-escrow)
+    (begin
+        (asserts! (or 
+            (is-eq tx-sender (var-get buyer))
+            (is-eq tx-sender (var-get freelancer))
+        ) ERR-NOT-AUTHORIZED)
+
+        ;; Can only dispute if active
+        (asserts! (or 
+            (is-eq (var-get current-status) STATUS-PENDING)
+            (is-eq (var-get current-status) STATUS-WORK-DONE)
+        ) ERR-WRONG-STATUS)
+
+        (var-set current-status STATUS-DISPUTED)
+        (ok true)
+    )
+)
