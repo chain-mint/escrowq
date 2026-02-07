@@ -21,3 +21,16 @@
 (define-constant ERR-WRONG-STATUS (err u103))
 (define-constant ERR-DEADLINE-NOT-PASSED (err u104))
 (define-constant ERR-INVALID-BENEFICIARY (err u105))
+
+;; -------------------------------------------------------------------------
+;; Data Variables
+;; -------------------------------------------------------------------------
+
+(define-data-var buyer principal tx-sender)
+(define-data-var freelancer principal tx-sender)
+(define-data-var arbitrator principal tx-sender)
+(define-data-var escrow-amount uint u0)
+(define-data-var milestone-deadline uint u0)
+(define-data-var current-status uint STATUS-PENDING)
+(define-data-var is-initialized bool false)
+
