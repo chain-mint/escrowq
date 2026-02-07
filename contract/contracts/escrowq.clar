@@ -100,3 +100,24 @@
         (ok true)
     )
 )
+
+
+;; 3. Release Funds
+;; Only Buyer can call. Transfers funds to Freelancer.
+(define-public (release-funds)
+    (begin
+        (asserts! (is-eq tx-sender (var-get buyer)) ERR-NOT-AUTHORIZED)
+        
+        ;; Can release if Pending or Work Done
+        (asserts! (or 
+            (is-eq (var-get current-status) STATUS-PENDING)
+            (is-eq (var-get current-status) STATUS-WORK-DONE)
+        ) ERR-WRONG-STATUS)
+
+        ;; Transfer funds from this contract to Freelancer
+        (try! (stx-transfer? (var-get escrow-amount) current-contract (var-get freelancer)))
+        
+        (var-set current-status STATUS-COMPLETED)
+        (ok true)
+    )
+)
