@@ -34,3 +34,23 @@
 (define-data-var current-status uint STATUS-PENDING)
 (define-data-var is-initialized bool false)
 
+;; -------------------------------------------------------------------------
+;; Read-Only Functions
+;; -------------------------------------------------------------------------
+
+
+(define-read-only (get-info)
+    (ok {
+        buyer: (var-get buyer),
+        freelancer: (var-get freelancer),
+        arbitrator: (var-get arbitrator),
+        amount: (var-get escrow-amount),
+        deadline: (var-get milestone-deadline),
+        status: (var-get current-status),
+        balance: (var-get escrow-amount)
+    })
+)
+
+(define-read-only (get-status)
+    (ok (var-get current-status))
+)
