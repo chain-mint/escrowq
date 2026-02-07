@@ -163,3 +163,26 @@
         (ok true)
     )
 )
+
+
+
+;; 6. Claim Refund
+;; Only Buyer can call if deadline passed and work is NOT marked done.
+(define-public (claim-refund)
+    (begin
+        (asserts! (is-eq tx-sender (var-get buyer)) ERR-NOT-AUTHORIZED)
+        
+        ;; Ensure deadline has passed
+        (asserts! (> stacks-block-height (var-get milestone-deadline)) ERR-DEADLINE-NOT-PASSED)
+
+        ;; Ensure status is strictly PENDING (Freelancer hasn't claimed work done)
+        ;; If Status is DISPUTED, refund is paused until resolution.
+        (asserts! (is-eq (var-get current-status) STATUS-PENDING) ERR-WRONG-STATUS)
+
+        ;; Return funds to Buyer
+        (try! (stx-transfer? (var-get escrow-amount) current-contract (var-get buyer)))
+
+        (var-set current-status STATUS-REFUNDED)
+        (ok true)
+    )
+)
